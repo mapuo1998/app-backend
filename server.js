@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const morgan = require('morgan');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -8,6 +9,11 @@ const MONGO_URI = 'mongodb+srv://ma3346:D0wHzljdSXYao0ht@cluster0.bb6skif.mongod
 
 app.use(express.json());
 app.use(cors());
+
+//middleware that outputs all requests to the server console
+app.use(morgan('common'));
+app.use(morgan('dev'));
+app.use(morgan('short'));
 
 const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
