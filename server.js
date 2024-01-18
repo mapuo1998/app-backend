@@ -15,6 +15,9 @@ app.use(morgan('common'));
 app.use(morgan('dev'));
 app.use(morgan('short'));
 
+// images served from public folder (class images)
+app.use(express.static('public'));
+
 const client = new MongoClient(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 async function startServer() {
@@ -37,11 +40,11 @@ async function startServer() {
 
     app.get('/api/search', async (req, res) => {
       const { searchFor } = req.query;
-    
+
       try {
         // Use a case-insensitive regular expression for a partial match on title or location
         const searchRegex = new RegExp(searchFor, 'i');
-        
+
         const classes = await db.collection('classes')
           .find({
             $or: [
@@ -50,7 +53,7 @@ async function startServer() {
             ]
           })
           .toArray();
-    
+
         res.json(classes);
       } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
