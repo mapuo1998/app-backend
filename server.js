@@ -125,7 +125,7 @@ async function startServer() {
 
         // Update the corresponding classes in the "classes" collection
         for (const item of updatedOrder.cartItems) {
-          const filter = { title: item.title }; // Assuming there is a "title" field in your classes
+          const filter = { title: item.title };
           const update = { $inc: { spaces: -item.spaces } };
           await db.collection('classes').updateOne(filter, update);
         }
